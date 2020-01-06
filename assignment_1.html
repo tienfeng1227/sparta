@@ -34,7 +34,14 @@
 			margin: auto;
 		}
 		.mytitle {
+			margin: 10px auto 10px auto;
 			display: inline-block;
+		}
+		.contents {
+			margin: 10px auto 20px auto;
+		}
+		.input-group {
+			margin: 10px auto 10px auto;
 		}
 		.button {
 			margin: auto;
@@ -45,24 +52,28 @@
 </head>
 <body>
 	<div class="wrap">
+		
 		<div class="graph">
 			<img class="graph predicted" src="https://cdn-images-1.medium.com/max/1000/1*38sMNsj2yJCzdQhOfgS87A.jpeg" alt="Card image cap">
 		</div>
 		<div class="mytitle">
-			<h1 class="mytitle big">원자재 가격 예측 모형</h1>
+			<h2 class="mytitle big">원자재 가격 예측 모형</h2>
 			<h2 class="mytitle small">가격: 30,000,000원</h2>
 		</div>
+		
 		<div class="contents">
 			원자재 가격 예측 및 시뮬레이션을 위한 다변량 회귀 모형, 
 			시계열 분석을 이용한 모형, 
 			머신러닝 기법을 활용한 모형 다수 보유
 		</div>
+		
 		<div class="input-group mb-1">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="inputGroup-sizing-default">주문자 이름</span>
 			</div>
 			<input type="text" class="form-control" aria-label="주문자 이름" aria-describedby="inputGroup-sizing-default">
 		</div>
+		
 		<div class="input-group mb-2">
 			<div class="input-group-prepend">
 				<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">종류</button>
@@ -76,12 +87,14 @@
 			</div>
 			<input type="text" class="form-control" aria-label="Text input with dropdown button">
 		</div>
+
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="inputGroup-sizing-default">주소</span>
 			</div>
 			<input type="text" class="form-control" aria-label="주소" aria-describedby="inputGroup-sizing-default">
 		</div>
+		
 		<div class="input-group mb-4">
 			<div class="input-group-prepend">
 				<span class="input-group-text" id="inputGroup-sizing-default">전화번호</span>
@@ -90,8 +103,9 @@
 		</div>
 		<div class="button">
 			<button type="button" class="btn btn-primary">주문하기</button>
+		
 		</div>
-	</div>
 
+	</div>
 
 </body>
