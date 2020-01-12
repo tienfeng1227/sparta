@@ -80,16 +80,14 @@
 
 		<div class="input-group mb-2">
 			<div class="input-group-prepend">
-				<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">종류</button>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">단변량</a>
-					<a class="dropdown-item" href="#">다변량</a>
-					<a class="dropdown-item" href="#">머신러닝</a>
-					<div role="separator" class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">기타</a>
-				</div>
+				<span class="input-group-text" for="inputGroupSelect01">수량</span>
 			</div>
-			<input type="text" class="form-control" aria-label="Text input with dropdown button">
+			<select class="custom-select" id="order_count">
+				<option selected value=""> -- 수량을 선택하세요 -- </option>
+				<option value="1">단변량</option>
+				<option value="2">다변량</option>
+				<option value="3">머신러닝</option>
+			</select>
 		</div>
 
 		<div class="input-group mb-3">
