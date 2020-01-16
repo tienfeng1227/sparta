@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+	<!-- Webpage Title -->
+	<title>Forecasting Model</title>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<!-- JS -->		
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<!-- 구글폰트 -->
+	<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		function cell(p) {
+			var regExp = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})[-][0-9]{3,4}[-][0-9]{4}$/;
+			return regExp.test(p);
+		}
+
+		function order() {
+			let name = $('#order_name').val();
+			let count = $('#order_count').val();
+			let address = $('#order_address').val();
+			let phone = $('#order_phone').val();
+
+			if (name == ''){
+				alert('이름을 입력해주세요')
+				$('#order_name').focus()
+				return
+			} else if (count == ''){
+				alert('수량을 입력해주세요')
+				$('#order_count').focus()
+				return
+			} else if (address == ''){
+				alert('주소를 입력해주세요')
+				$('#order_address').focus()
+				return
+			} else if (phone == ''){
+				alert('휴대폰번호를 입력해주세요')
+				$('#order_phone').focus()
+				return
+			} else if (!cell(phone)) {
+				alert('휴대폰번호 입력 형식이 틀립니다. \n 010-0000-0000으로 입력해주세요')
+				return
+			}
+
+			$.ajax({
+				type: "POST",
+				url: "/order",
+				data: { name_give:name, count_give:count, address_give:address, phone_give:phone },
+				success: function(response){
+					if(response['result'] == 'success'){
+						alert('주문 완료!');
+						window.location.reload();
+					}
+				}
+			})
+		}
+
+		$(document).ready(function(){
+			$('#orders-box').html('');
+			listing();
+		});
+
+		function listing() {
+			$.ajax({
+				type: "GET",
+				url: "/order",
+				data: {},
+				success: function(response){
+					if (response['result'] == 'success') {
+						let orders = response['orders'];
+						console.log(orders);
+						for (let i = 0; i < orders.length; i++) {
+							make_card(orders[i]['name'],orders[i]['count'],orders[i]['address'],orders[i]['phone'])
+						}
+					} else {
+						alert('기사를 받아오지 못했습니다');
+					}
+				}
+			})
+		}
+
+		function make_card(name,count,address,phone) {
+			let temp_html = '<tr>\
+			<td>'+name+'</td>\
+			<td>'+count+'</td>\
+			<td>'+address+'</td>\
+			<td>'+phone+'</td>\
+			</tr>';
+			$('#orders-box').append(temp_html);
+		}
+	</script>
+
+	<!-- style -->
+	<style type="text/css">
+		* {
+			font-family: 'Nanum Gothic', sans-serif;
+		}
+		.wrap {
+			width: 600px;
+			margin: auto;
+		}
+		.graph {
+			width: 600px;
+			margin: auto;
+		}
+		.mytitle {
+			margin: 10px auto 10px auto;
+			display: inline-block;
+		}
+		.small {
+			text-indent: 2em
+		}
+		.contents {
+			margin: 10px auto 20px auto;
+		}
+		.input-group {
+			margin: 10px auto 10px auto;
+		}
+
+		.button {
+			margin: auto;
+			width: 10%;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+
+		<div class="graph">
+			<img class="graph predicted" src="https://cdn-images-1.medium.com/max/1000/1*38sMNsj2yJCzdQhOfgS87A.jpeg" alt="Card image cap">
+		</div>
+		<div class="mytitle">
+			<span class="mytitle big"> <h2>원자재 가격 예측 모형 </h2></span>
+			<span class="mytitle small"> <h5>가격: 30,000,000원 </h5></span>
+		</div>
+
+		<div class="contents">
+			원자재 가격 예측 및 시뮬레이션을 위한 다변량 회귀 모형, 
+			시계열 분석을 이용한 모형, 
+			머신러닝 기법을 활용한 모형 다수 보유
+		</div>
+
+		<div class="input-group mb-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroup-sizing-default">주문자 이름</span>
+			</div>
+			<input type="text" class="form-control" id="order_name" aria-describedby="inputGroup-sizing-default">
+		</div>
+
+		<div class="input-group mb-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text" for="inputGroupSelect01">모형</span>
+			</div>
+			<select class="custom-select" id="order_count">
+				<option selected value=""> -- 모형을 선택하세요 -- </option>
+				<option value="1">단변량</option>
+				<option value="2">다변량</option>
+				<option value="3">머신러닝</option>
+			</select>
+		</div>
+
+		<div class="input-group mb-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroup-sizing-default">주소</span>
+			</div>
+			<input type="text" class="form-control" id="order_address" aria-describedby="inputGroup-sizing-default">
+		</div>
+
+		<div class="input-group mb-1">
+			<div class="input-group-prepend">
+				<span class="input-group-text" id="inputGroup-sizing-default">전화번호</span>
+			</div>
+			<input type="text" class="form-control" id="order_phone" aria-describedby="inputGroup-sizing-default">
+		</div>
+		<div class="button">
+			<button onclick="order()" type="button" class="btn btn-primary">주문하기</button>
+
+		</div>
+
+	</div>
+
+</body>
+</html>
